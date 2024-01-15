@@ -26,5 +26,5 @@ Translated output defaults to English but you can change the `TARGET_LANGCODE` i
 
 
 
-https://github.com/Ao1Pointblank/zenity-translate/assets/88149675/93fa4edf-1981-4527-b1eb-e7ccdc431f0e
+https://github.com/Ao1Pointblank/zenity-translate/assets/88149675/d8af6c4b-f757-44b0-b1bc-a60e425de248
 
