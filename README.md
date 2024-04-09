@@ -5,6 +5,7 @@ Use Zenity to translate selected text and play pronounciations via Translate-she
 **- X11 display server** (for xclip and wmctrl) (no Wayland)  
 **- wmctrl** (used for closing existing Translate windows)  
 **- xclip** (used to grab selected text)  
+**- xsel** (used to reset selection and clipboard)  
 **- translate-shell** (does the brunt of the work here. uses google engine by default)  
 **- zenity** (graphical display for translated text)  
 **- notify-send** (for alerting users of errors. transient notifications only, so no clutter)  
