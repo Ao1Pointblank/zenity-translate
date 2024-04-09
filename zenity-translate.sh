@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-#DEPENDENCIES: 
+#!/bin/bash
+#DEPENDENCIES:
 #wmctrl xclip translate-shell zenity notify-send
 #
 #Normcap from Flathub: (for OCR screen selection)
@@ -15,7 +15,7 @@ wmctrl -c "Translation";
 TEMPFILE=$(mktemp);
 
 #prefer current selection as input but fallback to clipboard
-if [[ -n "$(xclip -o -selection primary])" ]]; then
+if [[ -n "$(xclip -o -selection primary)" ]] ; then
     xclip -o -selection primary > $TEMPFILE
 else
     xclip -o -selection clipboard > $TEMPFILE
@@ -23,8 +23,8 @@ fi
 
 
 FILTERED_TEXT=$(cat "$TEMPFILE" | tr '\r\n' ' ' | tr '`' "'" )
-DETECTED_LANG=$(echo "$FILTERED_TEXT" | trans -j -identify -no-ansi | grep --color=never "Name" | awk '{$1=""; sub(/^[ \t]+/, ""); print $0}')
-DETECTED_LANGCODE=$(echo "$FILTERED_TEXT" | trans -j -identify -no-ansi | grep --color=never "Code" | awk '{$1=""; sub(/^[ \t]+/, ""); print $0}')
+DETECTED_LANG=$(echo "$FILTERED_TEXT" | trans -j -identify -no-ansi -no-browser | grep --color=never "Name" | awk '{$1=""; sub(/^[ \t]+/, ""); print $0}')
+DETECTED_LANGCODE=$(echo "$FILTERED_TEXT" | trans -j -identify -no-ansi -no-browser | grep --color=never "Code" | awk '{$1=""; sub(/^[ \t]+/, ""); print $0}')
 
 #checks if too much content for zenity window. this is a workaround for bad software. switch to YAD or Rofi instead of zenity?
 echo "$FILTERED_TEXT" | wc -m
@@ -33,7 +33,7 @@ OUTPUT=$(zenity  --title="Translation - $DETECTED_LANG Detected" \
         --width=400 \
         --info \
         --window-icon='~/.icons/custom/google-translate.png' \
-        --text="$(echo "$FILTERED_TEXT" | trans -brief -j -target $TARGET_LANGCODE )" \
+        --text="$(echo "$FILTERED_TEXT" | trans -brief -j -no-browser -target $TARGET_LANGCODE )" \
         --ok-label=Close \
         --icon-name=document-export \
         --extra-button "Screen Select" \
@@ -60,10 +60,10 @@ if [[ "$OUTPUT" == "Screen Select" ]] ; then
 	$0
 else
 	if [[ "$OUTPUT" == "$DETECTED_LANG Pronunciation" ]] ; then
-		echo "$FILTERED_TEXT" | trans -brief -j -speak
+		echo "$FILTERED_TEXT" | trans -brief -j -speak -no-browser
 	else
 		if [[ "$OUTPUT" == "Speak Translation" ]] ; then
-			echo "$FILTERED_TEXT" | trans -brief -j -target "$TARGET_LANGCODE" -play
+			echo "$FILTERED_TEXT" | trans -brief -j -target "$TARGET_LANGCODE" -play -no-browser
 		fi;
 		if [[ "$OUTPUT" == "Interactive Shell" ]] ; then
 			cd '/home/pointblank/.translate'
@@ -71,7 +71,7 @@ else
 				echo "Language Codes:" ;
 				trans -R ;
 				echo "Usage: source-lang:target-lang, Example: en:de" ;
-				trans -shell -brief -join-sentence -play -download-audio'
+				trans -shell -brief -join-sentence -play -download-audio -no-browser'
 			for ts_file in *.ts; do
     			mp3_file="${ts_file%.ts}.mp3"
     			mv "$ts_file" "$mp3_file"
