@@ -80,3 +80,7 @@ else
 	fi;
 fi;
 rm ${TEMPFILE}
+
+#clear clipboard and selection
+xsel -c
+xsel -bc
