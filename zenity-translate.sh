@@ -1,6 +1,6 @@
 #!/bin/bash
 #DEPENDENCIES:
-#wmctrl xclip translate-shell zenity notify-send
+#wmctrl xclip translate-shell zenity notify-send xsel
 #
 #Normcap from Flathub: (for OCR screen selection)
 #https://dynobo.github.io/normcap/
